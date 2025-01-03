@@ -21,7 +21,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('catalog/', include('catalog.urls', namespace='catalog')),]
+    path('home/', include('catalog.urls', namespace='home')),
+    path('catalog/', include('catalog.urls', namespace='catalog')),
+    path('index/', include('catalog.urls', namespace='index')),
+]
 
 # Cofiguration for media files
 if settings.DEBUG:
