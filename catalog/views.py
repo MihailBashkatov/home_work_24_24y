@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.context_processors import request
-from .models import Contact
+from .models import Contact, Product
 
 # Create your views here.
 
@@ -24,3 +24,11 @@ def contacts(request):
 
     return render(request, 'catalog/contacts.html', {'contacts_company': contacts_company})
 
+
+
+def index(request, product_id ):
+    """ Return html file for particular product (by product_id)."""
+
+    product = Product.objects.get(id=product_id)
+    context = {'product':product}
+    return render(request, 'catalog/product.html', context)
