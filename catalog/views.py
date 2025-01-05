@@ -27,7 +27,7 @@ def contacts(request):
 
 
 def index(request, product_id):
-    """ Return html file for particular product (by product_id)."""
+    """ Return html file for particular product (by product_id). If not image, then field changes to ..."""
 
     product = Product.objects.get(id=product_id)
     if not product.product_image:
