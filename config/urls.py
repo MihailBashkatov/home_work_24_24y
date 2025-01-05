@@ -24,6 +24,7 @@ urlpatterns = [
     path('home/', include('catalog.urls', namespace='home')),
     path('catalog/', include('catalog.urls', namespace='catalog')),
     path('index/', include('catalog.urls', namespace='index')),
+    path('products_list/', include('catalog.urls', namespace='products_list')),
 ]
 
 # Cofiguration for media files
