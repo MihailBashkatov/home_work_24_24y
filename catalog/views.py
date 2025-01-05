@@ -7,7 +7,7 @@ from .models import Contact, Product
 
 
 def home(request):
-    """ Returns html file with mao page"""
+    """ Returns html file with main page"""
     return render(request, 'catalog/home.html')
 
 
@@ -26,9 +26,18 @@ def contacts(request):
 
 
 
-def index(request, product_id ):
+def index(request, product_id):
     """ Return html file for particular product (by product_id)."""
 
     product = Product.objects.get(id=product_id)
+    if not product.product_image:
+        product.product_image = '...'
     context = {'product':product}
     return render(request, 'catalog/product.html', context)
+
+
+def products_list(request):
+    """ Returns html file with list of the products page"""
+    products = Product.objects.all()
+    context = {'products':products}
+    return render(request, 'catalog/products_list.html', context)
