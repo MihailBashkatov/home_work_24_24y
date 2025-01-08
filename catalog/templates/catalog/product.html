@@ -1,0 +1,22 @@
+{% extends 'catalog/base.html' %}
+{% block title %}List of the products{% endblock %}
+{% block content %}
+{% include 'catalog/header.html' %}
+
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="{{product.product_image.url}}" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title">{{ product.category }}</h4>
+            <h5 class="card-title">{{product.product_name}}</h5>
+            <p class="card-text">{{ product.product_description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% include 'catalog/footer.html' %}
+{% endblock %}
