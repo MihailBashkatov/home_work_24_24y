@@ -1,9 +1,21 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.context_processors import request
+from django.views.generic import CreateView, ListView, DetailView
+
 from .models import Contact, Product
 
-# Create your views here.
+
+# The class for creating page with all products
+class ProductsListView(ListView):
+    model = Product
+
+
+# The class for viewing page for particular product
+class ProductDetailView(DetailView):
+    model = Product
+
+
 
 
 def home(request):
@@ -33,11 +45,11 @@ def index(request, product_id):
     if not product.product_image:
         product.product_image = '...'
     context = {'product':product}
-    return render(request, 'catalog/product.html', context)
+    return render(request, 'catalog/product_detail.html', context)
 
-
-def products_list(request):
-    """ Returns html file with list of the products page"""
-    products = Product.objects.all()
-    context = {'products':products}
-    return render(request, 'catalog/products_list.html', context)
+#
+# def products_list(request):
+#     """ Returns html file with list of the products page"""
+#     products = Product.objects.all()
+#     context = {'products':products}
+#     return render(request, 'catalog/product_list.html', context)
