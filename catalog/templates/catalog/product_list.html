@@ -6,7 +6,7 @@
 <div class="row text-center">
     <div class="col-12">
         <div class="d-flex flex-wrap">
-            {% for product in products %}
+            {% for product in object_list %}
                 <div class="card" style="width: 18rem;">
                     <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">
@@ -14,6 +14,9 @@
                         <h5 class="card-title">{{product.product_name}}</h5>
                         <p class="card-text">{{product.product_description|truncatechars:10}}</p>
                         <a href="/catalog/index/{{product.id}}/" class="card-link">More about {{ product.product_name }}</a>
+                        <a href="#">{{ product.name }}</a>
+                        <a href="#" class="btn btn-sm btn-secondary ml-3">Редактировать</a>
+                        <a href="#" class="btn btn-sm btn-danger ml-1">Удалить</a>
                     </div>
                 </div>
             {% endfor %}
