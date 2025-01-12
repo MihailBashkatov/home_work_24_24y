@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'catalog', #registering app catalog
-]
+    'blog', #registering app blog
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
