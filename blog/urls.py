@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import BlogListView, BlogDetailView, BlogCreateView
+from blog.apps import BlogConfig
 
-app_name = 'blog'
+app_name = BlogConfig.name
 
 """ Registering URL adresses for catalog app"""
 urlpatterns = [
