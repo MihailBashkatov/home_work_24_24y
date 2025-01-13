@@ -1,7 +1,10 @@
+from urllib import request
+
 from django.shortcuts import render
 
 
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, TemplateView, View
 from django.contrib import messages
 
@@ -21,7 +24,14 @@ class BlogListView(ListView):
 # The class for viewing page for particular Blog
 class BlogDetailView(DetailView):
     model = Blog
-#
+
+class BlogCreateView(CreateView):
+    model = Blog
+    fields = ['title', 'content', 'picture']
+    # name = request.POST.get('name')
+    # messages.success(request, f'Thanks, message submitted successfully.')
+    success_url = reverse_lazy('blog:blog_list')
+
 # # The class for creating Contacts page
 # class ContactsTemplateView(View):
 #     template_name = 'catalog/contacts.html'
