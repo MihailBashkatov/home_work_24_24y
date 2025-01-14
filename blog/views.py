@@ -20,6 +20,13 @@ from .models import Blog
 class BlogListView(ListView):
     model = Blog
 
+    def get_queryset(self):
+        """ Return only published blogs.  """
+        queryset = super().get_queryset()
+        return queryset.filter(is_published=True)
+
+
+# The class for viewing page with all products
 
 # The class for viewing page for particular Blog
 class BlogDetailView(DetailView):
