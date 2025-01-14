@@ -25,6 +25,15 @@ class BlogListView(ListView):
 class BlogDetailView(DetailView):
     model = Blog
 
+    def get_object(self, queryset=None):
+        """"Return the amount of pages views."""
+
+        self.object = super().get_object(queryset)
+        self.object.views_counter += 1
+        self.object.save()
+        return self.object
+
+
 
 # The class for viewing page for creating Blog
 class BlogCreateView(CreateView):
@@ -46,7 +55,8 @@ class BlogUpdateView(UpdateView):
     #     messages.success(self.request, f'Thanks, {name}, message submitted successfully.')
     #     return redirect('blog:blog_list')
 
-class BookDeleteView(DeleteView):
+# The class for viewing page for deleting Blog
+class BlogDeleteView(DeleteView):
     model = Blog
     success_url = reverse_lazy('blog:blog_list')
 
