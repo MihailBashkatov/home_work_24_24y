@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView, TemplateView, View
+from django.views.generic import CreateView, ListView, DetailView, TemplateView, View, UpdateView
 from django.contrib import messages
 
 from catalog.models import Product
@@ -25,12 +25,26 @@ class BlogListView(ListView):
 class BlogDetailView(DetailView):
     model = Blog
 
+
+# The class for viewing page for creating Blog
 class BlogCreateView(CreateView):
     model = Blog
     fields = ['title', 'content', 'picture']
     # name = request.POST.get('name')
     # messages.success(request, f'Thanks, message submitted successfully.')
     success_url = reverse_lazy('blog:blog_list')
+
+# The class for viewing page for updating Blog
+class BookUpdateView(UpdateView):
+    model = Blog
+    fields = ['title', 'content', 'picture']
+    # success_url = reverse_lazy('blog:blog_list')
+
+    def post(self, request):
+        """ Returns html file with contacts page and confirm that message was sent successfully """
+        name = request.POST.get('name')
+        messages.success(self.request, f'Thanks, {name}, message submitted successfully.')
+        return redirect('blog:blog_list')
 
 # # The class for creating Contacts page
 # class ContactsTemplateView(View):
