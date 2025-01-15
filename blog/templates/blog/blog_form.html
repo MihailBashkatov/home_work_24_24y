@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+{% block title %}Add your post {% endblock %}
+
+{% block content %}
+{% include 'blog/header.html' %}
+<h2>Add your blog</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-dismissible alert-success">
+                            <button type="button" class="close" data-dismiss="alert">
+                            </button>
+                            <strong>{{message}}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+    {% csrf_token %}
+    {{ form.as_p }}
+    <style>
+        .helptext{visibility: hidden;}
+    </style>
+    <button type="submit" class="btn btn-primary">Publish</button>
+    <a href="{% url 'blog:blog_list' %}" class="btn btn-primary">Back to list of blogs</a>
+
+  </form>
+{% endblock %}
