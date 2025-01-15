@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+{% block title %}List of the blogs{% endblock %}
+{% load my_tags %}
+{% block content %}
+{% include 'blog/header.html' %}
+
+<div class="row text-center">
+    <div class="col-12">
+        <div class="d-flex flex-wrap">
+            {% for blog in object_list %}
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ blog.picture | media_filter }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h4 class="card-title">{{blog.title}}</h4>
+                        <p class="card-text">{{blog.content|truncatechars:10}}</p>
+                        <a href="{% url 'blog:blog_detail' blog.pk %}" class="btn btn-sm btn-primary ml-3">More about</a>
+                        <a href="{% url 'blog:blog_update' blog.pk %}" class="btn btn-sm btn-secondary ml-3">Edit blog</a>
+                        <a href="{% url 'blog:blog_delete' blog.pk %}" class="btn btn-sm btn-danger ml-3">Delete blog</a>
+                    </div>
+                    <p class="lead">Amount of views:  {{blog.views_counter}}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% include 'blog/footer.html' %}
+{% endblock %}

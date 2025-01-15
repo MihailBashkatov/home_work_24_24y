@@ -1,0 +1,72 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Contacts{% endblock %}
+{% block content %}
+{% include 'catalog/header.html' %}
+
+    <div class="container">
+        <div class="row text-start">
+            <div class="col-lg-9 col-md-6 col-sm-12">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <td class="w-25">Country</td>
+                                {% for contact in contacts_company %}
+                                <td>{{contact.country}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <td class="w-25">INN</td>
+                                {% for contact in contacts_company %}
+                                <td>{{contact.inn}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <td class="w-25">Address</td>
+                                {% for contact in contacts_company %}
+                                <td>{{contact.address}}</td>
+                                {% endfor %}
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-dismissible alert-success">
+                            <button type="button" class="close" data-dismiss="alert">
+                            </button>
+                            <strong>{{message}}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Contact us</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="" class="form-floating">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" class="form-control" id="name" placeholder="Your name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone">Phone</label>
+                                <input type="text" name="phone" class="form-control" id="phone" placeholder="Contact phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message">Message</label>
+                                <textarea type="text" name="message" class="form-control" id="message" placeholder="Please, insert your message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% include 'catalog/footer.html' %}
+{% endblock %}
