@@ -13,7 +13,7 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ['product_name', 'product_description', 'product_image', 'category', 'product_price']
 
-    #Validator against word in PROHIBITED WORDS list in the name of the product or in the description
+    #Validator for word in PROHIBITED WORDS list in the name of the product or in the description
     def clean(self):
         cleaned_data = super().clean()
         product_name = cleaned_data.get('product_name')
@@ -24,6 +24,12 @@ class ProductForm(forms.ModelForm):
 
         return cleaned_data
 
+    # Validator for positive integers
+    def clean_product_price(self):
+        product_price = self.cleaned_data.get('product_price')
+        if product_price < 0:
+            raise ValidationError('Please enter price, which is equal or more then 0')
+        return product_price
 #     def __init__(self, *args, **kwargs):
 #         super(AuthorForm, self).__init__(*args, **kwargs)
 #
