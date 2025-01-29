@@ -13,6 +13,28 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ['product_name', 'product_description', 'product_image', 'category', 'product_price']
 
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+
+        self.fields['product_name'].widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': 'Insert Product name'
+                })
+
+        self.fields['product_description'].widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': 'Insert product description'
+                })
+
+        self.fields['category'].widget.attrs.update({
+                'class': 'form-control',
+                })
+
+        self.fields['product_price'].widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': 'Insert product price'
+                })
+
     #Validator for word in PROHIBITED WORDS list in the name of the product or in the description
     def clean(self):
         cleaned_data = super().clean()
