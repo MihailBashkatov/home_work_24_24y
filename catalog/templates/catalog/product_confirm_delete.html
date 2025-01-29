@@ -1,0 +1,17 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Delete a product{% endblock %}
+
+{% block content %}
+{% include 'catalog/header.html' %}
+<h2>Delete a product</h2>
+<p>Are you sure you want to delete {{ object.product_name }}?</p>
+<p>{{object.product_image}}
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Continue to delete</button>
+    <a href="{% url 'catalog:products_list' %}" class="btn btn-primary">Reject</a>
+
+  </form>
+
+{% endblock %}
