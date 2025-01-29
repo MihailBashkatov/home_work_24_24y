@@ -4,23 +4,38 @@
 {% block content %}
 {% include 'catalog/header.html' %}
 <h2>Add your Product</h2>
-  <form method="post" enctype="multipart/form-data">
-    {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-dismissible alert-success">
-                            <button type="button" class="close" data-dismiss="alert">
-                            </button>
-                            <strong>{{message}}</strong>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-    {% csrf_token %}
-    {{ form.as_p }}
-    <style>
-        .helptext{visibility: hidden;}
-    </style>
-    <button type="submit" class="btn btn-primary">Publish</button>
-    <a href="{% url 'catalog:products_list' %}" class="btn btn-primary">Back to list of products</a>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <form class="row" method="post" enctype="multipart/form-data">
+                <div class="card">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <style>
+                            .helptext{visibility: hidden;}
+                        </style>
+                        <button type="submit" class="btn btn-primary">
+                        {% if object %}
+                            Update
+                        {% else %}
+                            Publish and save
+                        {% endif %}
+                        </button>
+                        <a href="{% url 'catalog:products_list' %}" class="btn btn-primary">Back to list of products</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+  <form
+
 
   </form>
 {% endblock %}
