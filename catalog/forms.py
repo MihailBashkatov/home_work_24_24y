@@ -4,7 +4,8 @@ from django.core.exceptions import ValidationError
 from .models import Product
 
 """ List of prohibited words"""
-PROHIBITED_WORDS = ['bes', 'tol']
+PROHIBITED_WORDS = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
+
 
 #Creating class ModelForm for adding product
 class ProductForm(forms.ModelForm):
@@ -18,7 +19,7 @@ class ProductForm(forms.ModelForm):
         product_name = cleaned_data.get('product_name')
         product_description = cleaned_data.get('product_description')
         for word in PROHIBITED_WORDS:
-            if word in product_name or word in product_description:
+            if word in product_name.lower().strip() or word in product_description.lower().strip():
                 raise ValidationError(f"Word {word} is not possible to use nor in Product name neither in description")
 
         return cleaned_data
