@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import Product
+from .models import Product, Category
 
 """ List of prohibited words"""
 PROHIBITED_WORDS = [
@@ -19,6 +19,7 @@ PROHIBITED_WORDS = [
 
 # Creating class ModelForm for adding product
 class ProductForm(forms.ModelForm):
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label='Chose category')
     class Meta:
         model = Product
         fields = [
@@ -33,7 +34,7 @@ class ProductForm(forms.ModelForm):
         super(ProductForm, self).__init__(*args, **kwargs)
 
         self.fields["product_name"].widget.attrs.update(
-            {"class": "form-control", "placeholder": "Insert Product name"}
+            {"class": "form-input", "placeholder": " Insert Product name"}
         )
 
         self.fields["product_description"].widget.attrs.update(
