@@ -13,6 +13,7 @@
             <h4 class="card-title">{{ object.category }}</h4>
             <h5 class="card-title">{{object.product_name}}</h5>
             <p class="card-text">{{ object.product_description }}</p>
+            <p><a class="btn btn-success" href="{% url 'catalog:products_update' object.pk %}">Update product</a></p>
           </div>
         </div>
       </div>

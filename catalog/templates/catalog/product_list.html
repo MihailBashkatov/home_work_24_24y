@@ -5,6 +5,7 @@
 
 <div class="row text-center">
     <div class="col-12">
+        <p><a class="btn btn-success" href="{% url 'catalog:products_create' %}">Add product</a></p>
         <div class="d-flex flex-wrap">
             {% for product in object_list %}
                 <div class="card" style="width: 18rem;">
