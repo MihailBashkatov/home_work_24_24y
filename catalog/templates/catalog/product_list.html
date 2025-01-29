@@ -15,6 +15,7 @@
                         <h5 class="card-title">{{product.product_name}}</h5>
                         <p class="card-text">{{product.product_description|truncatechars:10}}</p>
                         <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-sm btn-primary ml-3">More about </a>
+                        <p><a class="btn btn-danger" href="{% url 'catalog:product_delete' product.pk %}">Delete product</a></p>
                     </div>
                 </div>
             {% endfor %}
