@@ -9,11 +9,11 @@ class Blog(models.Model):
         verbose_name="Full content", help_text="Insert content of the post"
     )
     picture = models.ImageField(
-        upload_to="blog/images/",
-        verbose_name="Post images",
-        blank=True,
+        upload_to="blog/images/%Y/%m/%d/",
+        default=None,
         null=True,
-        help_text="Upload picture",
+        blank=True,
+        verbose_name="Saved image",
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
