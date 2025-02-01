@@ -1,43 +1,37 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-from django.template.context_processors import request
+
+from django.shortcuts import render, redirect
+from django.views.generic import CreateView, ListView, DetailView, TemplateView, View
+from django.contrib import messages
+
 from .models import Contact, Product
 
-# Create your views here.
+
+# The class for rendering the Home page
+class HomeTemplateView(TemplateView):
+    template_name = 'catalog/home.html'
+
+# The class for page with all products
+class ProductsListView(ListView):
+    model = Product
 
 
-def home(request):
-    """ Returns html file with main page"""
-    return render(request, 'catalog/home.html')
+# The class for viewing page for particular product
+class ProductDetailView(DetailView):
+    model = Product
+
+# The class for creating Contacts page
+class ContactsTemplateView(View):
+    template_name = 'catalog/contacts.html'
+
+    def get(self, request):
+        """ Returns html file with contacts page and contacts list"""
+        contacts_company = Contact.objects.all()
+        return render(self.request, 'catalog/contacts.html', {'contacts_company': contacts_company})
 
 
-
-def contacts(request):
-    """ Return html file. In case in method POST, taking all needed data"""
-
-    # Get all values for model Contact to add it in render
-    contacts_company = Contact.objects.all()
-
-    if request.method == 'POST':
+    def post(self, request):
+        """ Returns html file with contacts page and confirm that message was sent successfully """
         name = request.POST.get('name')
-        return HttpResponse(f'Data submitted, {name}')
+        messages.success(self.request, f'Thanks, {name}, message submitted successfully.')
+        return redirect('home:contacts_template')
 
-    return render(request, 'catalog/contacts.html', {'contacts_company': contacts_company})
-
-
-
-def index(request, product_id):
-    """ Return html file for particular product (by product_id). If not image, then field changes to ..."""
-
-    product = Product.objects.get(id=product_id)
-    if not product.product_image:
-        product.product_image = '...'
-    context = {'product':product}
-    return render(request, 'catalog/product.html', context)
-
-
-def products_list(request):
-    """ Returns html file with list of the products page"""
-    products = Product.objects.all()
-    context = {'products':products}
-    return render(request, 'catalog/products_list.html', context)
