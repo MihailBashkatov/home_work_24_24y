@@ -6,11 +6,14 @@
 {% include 'catalog/header.html' %}
 <h2>Delete a product</h2>
 <p>Are you sure you want to delete {{ object.product_name }}?</p>
-<p>{{object.product_image}}
+<p><img class="bd-placeholder-img rounded-circle" width="140" height="140" src="{{ product.product_image.url}}" class="card-img-top" alt="..." role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+</p>
+
   <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Continue to delete</button>
     <a href="{% url 'catalog:products_list' %}" class="btn btn-primary">Reject</a>
+    <a href="{% url 'catalog:products_list' %}" class="btn btn-primary">Back to list of products</a>
 
   </form>
 
