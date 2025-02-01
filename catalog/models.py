@@ -19,7 +19,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=150, verbose_name="Product name")
     product_description = models.TextField()
     product_image = models.ImageField(
-        upload_to="images/%Y/%m/%d/",
+        upload_to="catalog/images/%Y/%m/%d/",
         default=None,
         null=True,
         blank=True,
