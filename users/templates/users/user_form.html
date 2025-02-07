@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+{% block title %}Add your product {% endblock %}
+
+{% block content %}
+{% include 'catalog/header.html' %}
+<h2>Add your Product</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <form class="row" method="post" enctype="multipart/form-data">
+                <div class="card">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <style>
+                            .helptext{visibility: hidden;}
+                        </style>
+                        <button type="submit" class="btn btn-primary">
+                            Register
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
