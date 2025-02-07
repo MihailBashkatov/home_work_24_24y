@@ -17,6 +17,15 @@
                 <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:contacts_template' %}">Contacts</a>
                 <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:home_template' %}">Home</a>
                 <a class="p-2 btn btn-outline-primary" href="{% url 'blog:blog_list' %}">Blog</a>
+                {% if user.is_authenticated%}
+                    <form method="post" action="{% url 'users:logout' %}" style="display: inline">
+                        {% csrf_token %}
+                        <button type="submit" class="p-2 btn btn-outline-primary" >Logout</button>
+                    </form>
+                {% else %}
+                <a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}">Login</a>
+                <a class="p-2 btn btn-outline-primary" href="{% url 'users:register' %}">Registration</a>
+                {% endif %}
             </nav>
         </div>
 
