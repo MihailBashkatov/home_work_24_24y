@@ -148,6 +148,7 @@ AUTH_USER_MODEL = 'users.User' #model for authorization
 
 LOGIN_REDIRECT_URL = 'catalog:home_template'
 LOGOUT_REDIRECT_URL = 'catalog:home_template'
+LOGIN_URL = 'users:login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
