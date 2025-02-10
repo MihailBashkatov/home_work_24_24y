@@ -1,0 +1,76 @@
+from django import forms
+from django.core.exceptions import ValidationError
+
+from .models import Product, Category
+
+""" List of prohibited words"""
+PROHIBITED_WORDS = [
+    "казино",
+    "криптовалюта",
+    "крипта",
+    "биржа",
+    "дешево",
+    "бесплатно",
+    "обман",
+    "полиция",
+    "радар",
+]
+
+
+# Creating class ModelForm for adding product
+class ProductForm(forms.ModelForm):
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label='Chose category')
+    class Meta:
+        model = Product
+        fields = [
+            "product_name",
+            "product_description",
+            "product_image",
+            "category",
+            "product_price",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+
+        self.fields["product_name"].widget.attrs.update(
+            {"class": "form-input", "placeholder": " Insert Product name"}
+        )
+
+        self.fields["product_description"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Insert product description"}
+        )
+
+        self.fields["category"].widget.attrs.update(
+            {
+                "class": "form-control",
+            }
+        )
+
+        self.fields["product_price"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Insert product price"}
+        )
+
+    # Validator for word in PROHIBITED WORDS list in the name of the product or in the description
+    def clean(self):
+        cleaned_data = super().clean()
+        product_name = cleaned_data.get("product_name")
+        product_description = cleaned_data.get("product_description")
+        for word in PROHIBITED_WORDS:
+            if (
+                word in product_name.lower().strip()
+                or word in product_description.lower().strip()
+            ):
+                raise ValidationError(
+                    f"Word {word} is not possible to use nor in Product name neither in description"
+                )
+
+        return cleaned_data
+
+    # Validator for positive integers
+    def clean_product_price(self):
+        product_price = self.cleaned_data.get("product_price")
+        if product_price < 0:
+            raise ValidationError("Please enter price, which is equal or more then 0")
+        return product_price
+
