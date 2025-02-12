@@ -9,6 +9,7 @@ class ProductAdmin(admin.ModelAdmin):
                     'product_name',
                     'category',
                     'product_price',
+                    'product_is_published',
                     )
 
     list_filter = ('category',
