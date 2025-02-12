@@ -1,12 +1,25 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, TemplateView, View, UpdateView, DeleteView
 from django.contrib import messages
+from django.http import HttpResponseForbidden
 
 from .forms import ProductForm
 from .models import Contact, Product
 
+# The class for the logic to unpublish a product
+class ProductUnpublishView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        product = get_object_or_404(Product, pk=pk)
+
+        if not request.user.has_perm('catalog.can_unpublish_product'):
+            return HttpResponseForbidden('You do not have permission to unpublish this product')
+
+        product.product_is_published = False
+        product.save()
+
+        return redirect ('catalog:products_list')
 
 # The class for rendering the Home page
 class HomeTemplateView(TemplateView):
@@ -15,6 +28,11 @@ class HomeTemplateView(TemplateView):
 # The class for page with all products
 class ProductsListView(ListView):
     model = Product
+
+    def get_queryset(self):
+        """ Return only published products.  """
+        queryset = super().get_queryset()
+        return queryset.filter(product_is_published=True)
 
 
 # The class for viewing page for particular product
