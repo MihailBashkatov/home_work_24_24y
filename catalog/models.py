@@ -40,6 +40,7 @@ class Product(models.Model):
         verbose_name = "Product"
         verbose_name_plural = "Products"
         ordering = ["product_name"]
+        permissions = [('can_unpublish_product', 'Can unpublish product'),]
 
 
 # Create class Contact
