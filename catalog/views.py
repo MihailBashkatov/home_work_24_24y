@@ -45,6 +45,11 @@ class ProductsCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:products_list')
 
+    # Automatically saving owner of he product
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
 # The class for viewing page with updating new Product
 class ProductsUpdateView(UpdateView):
     model = Product
