@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 class Category(models.Model):
     category_name = models.CharField(max_length=150, verbose_name="Product name")
@@ -32,6 +34,10 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
     product_is_published = models.BooleanField(default=False)
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True, related_name="products"
+    )
+
 
     def __str__(self):
         return f"{self.product_name}"
