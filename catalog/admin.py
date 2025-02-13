@@ -10,13 +10,16 @@ class ProductAdmin(admin.ModelAdmin):
                     'category',
                     'product_price',
                     'product_is_published',
+                    'owner'
                     )
 
     list_filter = ('category',
+                   'owner'
                    )
 
     search_fields = ('product_name',
                     'product_description',
+                     'owner',
                     )
 
 
