@@ -35,13 +35,12 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     product_is_published = models.BooleanField(default=False)
     owner = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True, related_name="products"
+        User, on_delete=models.CASCADE, null=False, blank=False, related_name="products"
     )
 
 
     def __str__(self):
         return f"{self.product_name}"
-
     class Meta:
         verbose_name = "Product"
         verbose_name_plural = "Products"
