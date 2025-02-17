@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html' %}
+{% block title %}List of the products{% endblock %}
+{% block content %}
+{% include 'catalog/header.html' %}
+{% load my_tags %}
+
+
+<div class="row text-center">
+    <div class="col-12">
+        <p><a class="btn btn-success" href="{% url 'catalog:products_create' %}">Add product</a></p>
+        <div class="d-flex flex-wrap">
+            {% for category in object_list %}
+                <div class="card ms-4 mb-5" style="width: 25rem">
+                    <div class="card-body mb-3">
+                       <h2 class="fw-normal" class="card-title">{{ category.category_name}}</h2>
+                        <p class="card-text">{{category.category_description|truncatechars:100}}</p>
+                        <p><a class="btn btn-secondary" href="{% url 'catalog:chosen_categories_list' category.pk %}">All products for category {{ category.category_name }}</a></p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% include 'catalog/footer.html' %}
+{% endblock %}

@@ -1,5 +1,10 @@
+from .services import ProductService
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -15,7 +20,7 @@ from django.http import HttpResponseForbidden
 from django.core.exceptions import PermissionDenied
 
 from .forms import ProductForm
-from .models import Contact, Product
+from .models import Contact, Product, Category
 
 
 # The class for the logic to unpublish a product
@@ -39,17 +44,41 @@ class HomeTemplateView(TemplateView):
     template_name = "catalog/home.html"
 
 
-# The class for page with all products
+class CategoryListView(ListView):
+    model = Category
+
+
+class ChosenCategoryDetailView(DetailView):
+    model = Category
+    template_name = "catalog/chosen_category_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.object.id
+        context['category_name'] = self.object.category_name
+        context["chosen_products"] = ProductService.get_all_products_for_category(
+            category_id
+        )
+        return context
+
+
+# The class for page with all products. With decorator for cashes
+@method_decorator(cache_page(60 * 2), name="dispatch")
 class ProductsListView(ListView):
     model = Product
 
     def get_queryset(self):
-        """Return only published products."""
-        queryset = super().get_queryset()
-        return queryset.filter(product_is_published=True)
+        """Return only published products. If queryset is not cached, set cache_queryset"""
+        cache_queryset = cache.get("products_queryset")
+        if not cache_queryset:
+            cache_queryset = super().get_queryset()
+            cache.set("products_queryset", cache_queryset, 60 * 2)
+
+        return cache_queryset.filter(product_is_published=True)
 
 
-# The class for viewing page for particular product
+# The class for viewing page for particular product. With decorator for caches
+@method_decorator(cache_page(60 * 2), name="dispatch")
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
 
