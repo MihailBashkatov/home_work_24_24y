@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 class Category(models.Model):
     category_name = models.CharField(max_length=150, verbose_name="Product name")
@@ -31,14 +33,19 @@ class Product(models.Model):
     product_price = models.IntegerField(help_text="Insert price for the product")
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
+    product_is_published = models.BooleanField(default=False)
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, blank=False, related_name="products"
+    )
+
 
     def __str__(self):
         return f"{self.product_name}"
-
     class Meta:
         verbose_name = "Product"
         verbose_name_plural = "Products"
         ordering = ["product_name"]
+        permissions = [('can_unpublish_product', 'Can unpublish product'),]
 
 
 # Create class Contact
